@@ -8,16 +8,7 @@ ENV RBENV_HOME ${WORK_HOME}/.rbenv
 
 RUN apt-get update 
 RUN apt-get install -y git build-essential libssl-dev zlib1g-dev libssl-dev libreadline-dev libyaml-dev libxml2-dev libxslt-dev && \
-    apt-get install -y liblua5.2-dev lua5.2 gettext tcl-dev && \
-    apt-get install -y xvfb libxtst6 
-
-# vim
-RUN git clone https://github.com/vim/vim.git && \
-    cd vim/src && \
-    ./configure --with-features=huge --enable-multibyte --enable-rubyinterp --enable-pythoninterp --with-python-config-dir=/usr/lib/python2.7/config \
-      --enable-tclinterp --disable-nls --enable-perlinterp --enable-luainterp --enable-gui=gtk2 --enable-cscope --prefix=/usr && \
-    make && \
-    make install
+    apt-get install -y vim-nox
 
 # ADD USER
 RUN useradd -d ${WORK_HOME} -s /bin/bash -m dev && echo "dev:dev" | chpasswd && \
@@ -53,6 +44,11 @@ RUN apt-get install -y bash-completion
 COPY .vimrc ${WORK_HOME}/.vimrc
 COPY .vimrc_tab ${WORK_HOME}/.vimrc_tab
 RUN chown dev:dev ${WORK_HOME}/.vimrc ${WORK_HOME}/.vimrc_tab
+
+# for volumes
+COPY chown-script.sh ${WORK_HOME}/chown-script.sh
+RUN chmod +x ${WORK_HOME}/chown-script.sh && \
+    echo "${WORK_HOME}/chown-script.sh" >> ${WORK_HOME}/.bashrc
 
 # extra settings
 USER dev
