@@ -29,13 +29,16 @@ set fileformat=unix
 set fileformats=unix,dos,mac
 
 """ NeoBundle """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if has('vim_starting')
+if 0 | endif
+
+if &compatible
   set nocompatible
-  set runtimepath+=~/.vim/bundle/neobundle.vim
 endif
 
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
+set runtimepath^=~/.vim/bundle/neobundle.vim/
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'  
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'scrooloose/nerdtree'
@@ -46,6 +49,8 @@ NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'tpope/vim-endwise'
 
 call neobundle#end()
+
+filetype plugin indent on
 
 NeoBundleCheck
 
